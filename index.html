@@ -9,27 +9,40 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <form>
-    <h2>Add new book</h2>
-    <input type="text" placeholder="Title" id="title">
-    <input type="text" placeholder="Author" id="author">
-    <input type="number" placeholder="Pages" id="pages" min="1" max="20000">
-    <div class="reading-status">
-      <input type="radio" id="yes" name="status">
-      <label for="yes" class="radio-label">Finished reading</label><br>
-      <input type="radio" id="reading" name="status">
-      <label for="reading" class="radio-label">
-        Currently reading page 
-        <span><input type="number" inputmode="numeric" id="page-number" placeholder="#"></span>
-      </label><br>
-      <input type="radio" id="no" name="status">
-      <label for="no" class="radio-label">Not read yet</label><br>
-    </div>
-    <div class="buttons">
-      <button type="submit" id="add">Add</button>
-      <button type="reset" id="cancel">Cancel</button>
-    </div>
-  </form>
+  <div class="container">
+    <form>
+      <h2>Add new book</h2>
+      <input type="text" placeholder="Title" id="title">
+      <input type="text" placeholder="Author" id="author">
+      <input type="number" placeholder="Pages" id="pages" min="1" max="20000">
+      <div class="reading-status">
+        <input type="radio" id="yes" name="status">
+        <label for="yes" class="radio-label">Finished reading</label><br>
+        <input type="radio" id="reading" name="status">
+        <label for="reading" class="radio-label">
+          Currently reading page
+          <span><input type="number" inputmode="numeric" id="page-number" placeholder="#" min="1" max="20000"></span>
+        </label><br>
+        <input type="radio" id="no" name="status">
+        <label for="no" class="radio-label">Not read yet</label><br>
+      </div>
+      <div class="buttons">
+        <button type="submit" id="add">Add</button>
+        <button type="reset" id="cancel">Cancel</button>
+      </div>
+    </form>
+
+    <table>
+      <thead>
+        <th style="width: 30%">Title</th>
+        <th style="width: 25%">Author</th>
+        <th style="width: 10%">Pages</th>
+        <th style="width: 25%">Reading Progress</th>
+        <th style="width: 10%">Edit/Remove</th>
+      </thead>
+    </table>
+  </div>
+
   <footer>
     Copyright &copy <script>document.write(new Date().getFullYear())</script>
     <a href="https://github.com/quandaworld" target="_blank" style="text-decoration: none; color: inherit">
