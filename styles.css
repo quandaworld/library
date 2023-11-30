@@ -63,8 +63,16 @@ input {
   background-color: #5995DA;
 }
 
+#add:hover {
+  background-color: #76AEED;
+}
+
 #cancel {
-  background-color: rgb(196, 61, 61);
+  background-color: rgb(195, 55, 55);
+}
+
+#cancel:hover {
+  background-color: rgb(206, 82, 82);
 }
 
 footer {
