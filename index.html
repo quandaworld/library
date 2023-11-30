@@ -16,15 +16,15 @@
       <input type="text" placeholder="Author" id="author" required>
       <input type="number" placeholder="Pages" id="pages" min="1" max="20000" required>
       <div class="reading-status">
-        <input type="radio" id="yes" name="status" required>
-        <label for="yes" class="radio-label">Finished reading</label><br>
+        <input type="radio" id="read" name="status" required>
+        <label for="read" class="radio-label">Finished reading</label><br>
         <input type="radio" id="reading" name="status">
         <label for="reading" class="radio-label">
           Currently reading page
           <span><input type="number" inputmode="numeric" id="page-number" placeholder="#" min="1" max="20000"></span>
         </label><br>
-        <input type="radio" id="no" name="status">
-        <label for="no" class="radio-label">Not read yet</label><br>
+        <input type="radio" id="not-read" name="status">
+        <label for="not-read" class="radio-label">Not read yet</label><br>
       </div>
       <div class="buttons">
         <button type="submit" id="add">Add</button>
