@@ -9,9 +9,14 @@ const form = document.querySelector('form');
 const table = document.querySelector('table');
 let read_status = '';
 
+window.onload = (e) => {
+  myLibrary.forEach(book => displayBook(book));
+};
+
 reading_input.addEventListener('click', () => {
   if (reading_input.checked) pageNum_input.setAttribute('required', '');
 });
+
 form.addEventListener('submit', addBookToLibrary);
 
 function Book(title, author, pages, status) {
