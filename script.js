@@ -1,4 +1,4 @@
-const myLibrary = [];
+const myLibrary = localStorage.getItem('books') ? JSON.parse(localStorage.getItem('books')) : [];
 const title_input = document.getElementById('title');
 const author_input = document.getElementById('author');
 const pages_input = document.getElementById('pages');
@@ -12,7 +12,6 @@ let read_status = '';
 reading_input.addEventListener('click', () => {
   if (reading_input.checked) pageNum_input.setAttribute('required', '');
 });
-
 form.addEventListener('submit', addBookToLibrary);
 
 function Book(title, author, pages, status) {
@@ -22,12 +21,12 @@ function Book(title, author, pages, status) {
   this.status = status;
 }
 
-
 function addBookToLibrary(e) {
   e.preventDefault();
   const newBook = new Book(title_input.value, author_input.value, pages_input.value, getStatus());  
   if (!isInLibrary(newBook)) {
     myLibrary.push(newBook);
+    localStorage.setItem('books', JSON.stringify(myLibrary));
     displayBook(newBook);
     form.reset();
     pageNum_input.removeAttribute('required');
@@ -36,17 +35,17 @@ function addBookToLibrary(e) {
   }
 }
 
-function displayBook(newBook) {
+function displayBook(book) {
   const row = table.insertRow();
   const title_cell = row.insertCell(0);
   const author_cell = row.insertCell(1);
   const pages_cell = row.insertCell(2);
   const status_cell = row.insertCell(3);
   const edit_cell = row.insertCell(4);
-  title_cell.innerHTML = newBook.title;
-  author_cell.innerHTML = newBook.author;
-  pages_cell.innerHTML = newBook.pages;
-  status_cell.innerHTML = newBook.status;
+  title_cell.innerHTML = book.title;
+  author_cell.innerHTML = book.author;
+  pages_cell.innerHTML = book.pages;
+  status_cell.innerHTML = book.status;
   edit_cell.innerHTML = 'TBU';
 }
 
