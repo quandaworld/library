@@ -54,7 +54,7 @@ input {
   gap: 5px;
 }
 
-#add,
+#save,
 #cancel {
   font-size: 16px;
   font-weight: bold;
@@ -65,11 +65,11 @@ input {
   cursor: pointer;
 }
 
-#add {
+#save {
   background-color: #5995DA;
 }
 
-#add:hover {
+#save:hover {
   background-color: #76AEED;
 }
 
