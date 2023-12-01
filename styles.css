@@ -88,9 +88,12 @@ table {
 
 td,
 th {
-  border-bottom: 1px solid #000000;
   padding: 8px 0;
   text-align: left;
+}
+
+th {
+    border-bottom: 1px solid #000000;
 }
 
 footer {
