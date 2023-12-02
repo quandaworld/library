@@ -113,7 +113,6 @@ th {
 }
 
 #edit:hover {
-  border-color: #5995DA;
   background-color: #5995DA;
   color: #FFFFFF;
 }
@@ -124,7 +123,6 @@ th {
 }
 
 #remove:hover {
-  border-color: rgb(195, 55, 55);
   background-color: rgb(195, 55, 55);
   color: #FFFFFF;
 }
