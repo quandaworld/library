@@ -65,7 +65,8 @@ input {
   cursor: pointer;
 }
 
-#save {
+#save,
+#edit {
   background-color: #5995DA;
 }
 
@@ -73,7 +74,8 @@ input {
   background-color: #76AEED;
 }
 
-#cancel {
+#cancel,
+#remove {
   background-color: rgb(195, 55, 55);
 }
 
@@ -93,7 +95,21 @@ th {
 }
 
 th {
-    border-bottom: 1px solid #000000;
+  border-bottom: 1px solid #000000;
+}
+
+#edit,
+#remove {
+  font-size: 15px;
+  border: none;
+  border-radius: 3px;
+  padding: 3px 4px;
+  cursor: pointer;
+  color: #FFFFFF;
+}
+
+#edit {
+  margin-right: 5px;
 }
 
 footer {
