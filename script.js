@@ -51,7 +51,7 @@ function displayBook(book) {
   author_cell.innerHTML = book.author;
   pages_cell.innerHTML = book.pages;
   status_cell.innerHTML = book.status;
-  edit_cell.innerHTML = 'TBU';
+  edit_cell.innerHTML = "<button id='edit'>Edit</button><button id='remove'>Remove</button>";
 }
 
 function isInLibrary(newBook) {
@@ -69,5 +69,13 @@ function getStatus() {
     }
   }
   return read_status;
+}
+
+function editBook(book) {
+
+}
+
+function removeBook(book) {
+
 }
 
