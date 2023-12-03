@@ -88,8 +88,12 @@ table {
 
 td,
 th {
-  padding: 8px;
+  padding: 0 8px 8px 8px;
   text-align: left;
+}
+
+tbody tr:first-child td {
+  padding-top: 8px;
 }
 
 th {
