@@ -17,11 +17,32 @@ reading_input.addEventListener('click', () => {
 
 form.addEventListener('submit', addBookToLibrary);
 
+function displayLibrary(library) {
+  library.forEach(book => displayBook(book));
+}
+
 function Book(title, author, pages, status) {
   this.title = title;
   this.author = author;
   this.pages = pages;
   this.status = status;
+}
+
+function isInLibrary(newBook) {
+  for (const book of myLibrary) {
+    if (book.title.toLowerCase() === newBook.title.toLowerCase()) return true;
+  }
+  return false;
+}
+
+function getStatus() {
+  for (let i = 0; i < status_input.length; i++) {
+    if (status_input[i].checked) {
+      read_status = status_input[i].labels[0].innerText;
+      if (i === 1) read_status += pageNum_input.value;
+    }
+  }
+  return read_status;
 }
 
 function addBookToLibrary(e) {
@@ -62,29 +83,10 @@ function activateActionButtons(book, index) {
   remove_btn.addEventListener('click', removeBook);
 }
 
-function displayLibrary(library) {
-  library.forEach(book => displayBook(book));
-}
-
-function isInLibrary(newBook) {
-  for (const book of myLibrary) {
-    if (book.title.toLowerCase() === newBook.title.toLowerCase()) return true;
-  }
-  return false;
-}
-
-function getStatus() {
-  for (let i = 0; i < status_input.length; i++) {
-    if (status_input[i].checked) {
-      read_status = status_input[i].labels[0].innerText;
-      if (i === 1) read_status += pageNum_input.value;
-    }
-  }
-  return read_status;
-}
-
 function editBook(e) {
   // update library
+
+
   localStorage.setItem('books', JSON.stringify(myLibrary));
   tbody.innerHTML = '';
   displayLibrary(myLibrary);
