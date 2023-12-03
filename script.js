@@ -7,8 +7,6 @@ const pageNum_input = document.getElementById('page-number');
 const reading_input = document.getElementById('reading');
 const form = document.querySelector('form');
 const tbody = document.querySelector('tbody');
-const edit_btns = document.querySelectorAll('#edit');
-const remove_btns = document.querySelectorAll('#remove');
 let read_status = '';
 
 window.onload = (e) => displayLibrary(myLibrary);
@@ -18,8 +16,6 @@ reading_input.addEventListener('click', () => {
 });
 
 form.addEventListener('submit', addBookToLibrary);
-edit_btns.forEach(btn => btn.addEventListener('click', editBook));
-remove_btns.forEach(btn => btn.addEventListener('click', removeBook));
 
 function Book(title, author, pages, status) {
   this.title = title;
@@ -53,7 +49,17 @@ function displayBook(book) {
   author_cell.innerHTML = book.author;
   pages_cell.innerHTML = book.pages;
   status_cell.innerHTML = book.status;
-  action_cell.innerHTML = `<button id='edit' data-index=${myLibrary.indexOf(book)}>Edit</button><button id='remove' data-index=${myLibrary.indexOf(book)}>Remove</button>`;
+
+  const index = myLibrary.indexOf(book);
+  action_cell.innerHTML = `<button id='edit' data-index='${index}'>Edit</button><button id='remove' data-index='${index}'>Remove</button>`;
+  activateActionButtons(book, index);
+}
+
+function activateActionButtons(book, index) {
+  const edit_btn = document.querySelector(`#edit[data-index='${index}']`);
+  const remove_btn = document.querySelector(`#remove[data-index='${index}']`);
+  edit_btn.addEventListener('click', editBook);
+  remove_btn.addEventListener('click', removeBook);
 }
 
 function displayLibrary(library) {
@@ -77,14 +83,14 @@ function getStatus() {
   return read_status;
 }
 
-function editBook(book) {
+function editBook(e) {
   // update library
   // update localStorage
   // clear current display
   // display library
 }
 
-function removeBook(book) {
+function removeBook(e) {
   // delete book from library
   // update localStorage
   // clear current display
