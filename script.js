@@ -85,15 +85,15 @@ function getStatus() {
 
 function editBook(e) {
   // update library
-  // update localStorage
-  // clear current display
-  // display library
+  localStorage.setItem('books', JSON.stringify(myLibrary));
+  tbody.innerHTML = '';
+  displayLibrary(myLibrary);
 }
 
 function removeBook(e) {
-  // delete book from library
-  // update localStorage
-  // clear current display
-  // display library
+  myLibrary.splice(e.target.dataset.index, 1);
+  localStorage.setItem('books', JSON.stringify(myLibrary));
+  tbody.innerHTML = '';
+  displayLibrary(myLibrary);
 }
 
