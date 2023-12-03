@@ -7,17 +7,19 @@ const pageNum_input = document.getElementById('page-number');
 const reading_input = document.getElementById('reading');
 const form = document.querySelector('form');
 const table = document.querySelector('table');
+const edit_btn = document.getElementById('edit');
+const remove_btn = document.getElementById('remove');
 let read_status = '';
 
-window.onload = (e) => {
-  myLibrary.forEach(book => displayBook(book));
-};
+window.onload = (e) => displayLibrary(myLibrary);
 
 reading_input.addEventListener('click', () => {
   if (reading_input.checked) pageNum_input.setAttribute('required', '');
 });
 
 form.addEventListener('submit', addBookToLibrary);
+edit_btn.addEventListener('click', editBook);
+remove_btn.addEventListener('click', removeBook);
 
 function Book(title, author, pages, status) {
   this.title = title;
@@ -54,6 +56,10 @@ function displayBook(book) {
   edit_cell.innerHTML = "<button id='edit'>Edit</button><button id='remove'>Remove</button>";
 }
 
+function displayLibrary(library) {
+  library.forEach(book => displayBook(book));
+}
+
 function isInLibrary(newBook) {
   for (const book of myLibrary) {
     if (book.title.toLowerCase() === newBook.title.toLowerCase()) return true;
@@ -72,10 +78,16 @@ function getStatus() {
 }
 
 function editBook(book) {
-
+  // update library
+  // update localStorage
+  // clear current display
+  // display library
 }
 
 function removeBook(book) {
-
+  // delete book from library
+  // update localStorage
+  // clear current display
+  // display library
 }
 
