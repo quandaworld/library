@@ -6,9 +6,9 @@ const status_input = document.getElementsByName('status');
 const pageNum_input = document.getElementById('page-number');
 const reading_input = document.getElementById('reading');
 const form = document.querySelector('form');
-const table = document.querySelector('table');
-const edit_btn = document.getElementById('edit');
-const remove_btn = document.getElementById('remove');
+const tbody = document.querySelector('tbody');
+const edit_btns = document.querySelectorAll('#edit');
+const remove_btns = document.querySelectorAll('#remove');
 let read_status = '';
 
 window.onload = (e) => displayLibrary(myLibrary);
@@ -18,8 +18,8 @@ reading_input.addEventListener('click', () => {
 });
 
 form.addEventListener('submit', addBookToLibrary);
-edit_btn.addEventListener('click', editBook);
-remove_btn.addEventListener('click', removeBook);
+edit_btns.forEach(btn => btn.addEventListener('click', editBook));
+remove_btns.forEach(btn => btn.addEventListener('click', removeBook));
 
 function Book(title, author, pages, status) {
   this.title = title;
@@ -43,17 +43,17 @@ function addBookToLibrary(e) {
 }
 
 function displayBook(book) {
-  const row = table.insertRow();
+  const row = tbody.insertRow();
   const title_cell = row.insertCell(0);
   const author_cell = row.insertCell(1);
   const pages_cell = row.insertCell(2);
   const status_cell = row.insertCell(3);
-  const edit_cell = row.insertCell(4);
+  const action_cell = row.insertCell(4);
   title_cell.innerHTML = book.title;
   author_cell.innerHTML = book.author;
   pages_cell.innerHTML = book.pages;
   status_cell.innerHTML = book.status;
-  edit_cell.innerHTML = "<button id='edit'>Edit</button><button id='remove'>Remove</button>";
+  action_cell.innerHTML = `<button id='edit' data-index=${myLibrary.indexOf(book)}>Edit</button><button id='remove' data-index=${myLibrary.indexOf(book)}>Remove</button>`;
 }
 
 function displayLibrary(library) {
