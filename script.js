@@ -8,6 +8,7 @@ const reading_input = document.getElementById('reading');
 const cancel_btn = document.getElementById('cancel');
 const form = document.querySelector('form');
 const tbody = document.querySelector('tbody');
+const sort_buttons = document.querySelectorAll('.fa-sort');
 let read_status = '';
 let editMode = false;
 let editIndex;
@@ -136,25 +137,37 @@ function fillEditForm(element) {
   }
 }
 
+function updateStorageAndDisplay() {
+  localStorage.setItem('books', JSON.stringify(myLibrary));
+  tbody.innerHTML = '';
+  displayLibrary(myLibrary);
+}
+
 function editBook(e) {
   e.preventDefault();
   const editedBook = new Book(title_input.value, author_input.value, pages_input.value, getStatus());  
   myLibrary.splice(editIndex, 1, editedBook)
-  localStorage.setItem('books', JSON.stringify(myLibrary));
-  tbody.innerHTML = '';
-  displayLibrary(myLibrary);
+  updateStorageAndDisplay();
   form.reset();
   pageNum_input.removeAttribute('required');
 }
 
 function removeBook(e) {
   myLibrary.splice(e.target.dataset.index, 1);
-  localStorage.setItem('books', JSON.stringify(myLibrary));
-  tbody.innerHTML = '';
-  displayLibrary(myLibrary);
+  updateStorageAndDisplay();
 }
 
-function sortData(library) {
-  // sort library
-  displayLibrary(library);
+sort_buttons.forEach(btn => btn.addEventListener('click', sortData));
+
+function sortData(e) {
+  const key = e.target.dataset.sort;
+  console.log(key);
+  if (key === 'date') {
+
+  } else if (key === 'pages') {
+    myLibrary.sort((a, b) => a[key] - b[key]);
+  } else {
+
+  }
+  updateStorageAndDisplay();
 }
