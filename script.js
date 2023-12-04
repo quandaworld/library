@@ -11,6 +11,7 @@ const tbody = document.querySelector('tbody');
 let read_status = '';
 let editMode = false;
 let editIndex;
+let edit_buttons = [];
 
 window.onload = (e) => displayLibrary(myLibrary);
 
@@ -28,7 +29,6 @@ form.addEventListener('submit', (e) => {
   if (editMode) {
     editBook(e);
     editMode = false;
-    // switch off edit button
   } else {
     addBookToLibrary(e);
   }
@@ -37,6 +37,7 @@ form.addEventListener('submit', (e) => {
 cancel_btn.addEventListener('click', () => {
   editMode = false;
   resetForm();
+  edit_buttons.forEach(btn => btn.classList.remove('clicked')); // Switch off all edit buttons
 });
 
 function displayLibrary(library) {
@@ -99,6 +100,7 @@ function displayBook(book) {
 
   const index = myLibrary.indexOf(book);
   action_cell.innerHTML = `<button id='edit' data-index='${index}'>Edit</button><button id='remove' data-index='${index}'>Remove</button>`;
+  edit_buttons = document.querySelectorAll('#edit');
   activateActionButtons(book, index);
 }
 
@@ -106,16 +108,17 @@ function activateActionButtons(book, index) {
   const edit_btn = document.querySelector(`#edit[data-index='${index}']`);
   const remove_btn = document.querySelector(`#remove[data-index='${index}']`);
   remove_btn.addEventListener('click', removeBook);
-  edit_btn.addEventListener('click', (e) => {
-    // Switch on edit button
+  edit_btn.addEventListener('click', () => {
+    edit_buttons.forEach(btn => btn.classList.remove('clicked')); // Switch off all edit buttons
+    edit_btn.classList.add('clicked'); // Switch on chosen edit button
     editMode = true;
-    fillEditForm(e);
+    fillEditForm(edit_btn);
   });
 }
 
-function fillEditForm(e) {
+function fillEditForm(element) {
   resetForm();
-  editIndex = e.target.dataset.index;
+  editIndex = element.dataset.index;
   title_input.value = myLibrary[editIndex].title;
   author_input.value = myLibrary[editIndex].author;
   pages_input.value = myLibrary[editIndex].pages;
@@ -147,4 +150,3 @@ function removeBook(e) {
   tbody.innerHTML = '';
   displayLibrary(myLibrary);
 }
-
