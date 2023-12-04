@@ -13,6 +13,7 @@ let read_status = '';
 let editMode = false;
 let editIndex;
 let edit_buttons = [];
+let asc_sort = true;
 
 window.onload = (e) => displayLibrary(myLibrary);
 
@@ -157,7 +158,10 @@ function removeBook(e) {
   updateStorageAndDisplay();
 }
 
-sort_buttons.forEach(btn => btn.addEventListener('click', sortData));
+sort_buttons.forEach(btn => btn.addEventListener('click', (e) => {
+  asc_sort = !asc_sort;
+  sortData(e);
+}));
 
 function sortData(e) {
   const key = e.target.dataset.sort;
@@ -168,5 +172,6 @@ function sortData(e) {
   } else {
     myLibrary.sort((a, b) => a[key].toLowerCase() < b[key].toLowerCase() ? -1 : 1);
   }
+  if (!asc_sort) myLibrary.reverse();
   updateStorageAndDisplay();
 }
