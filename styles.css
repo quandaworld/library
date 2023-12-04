@@ -116,7 +116,8 @@ th {
   border: 1.5px solid #5995DA;
 }
 
-#edit:hover {
+#edit:hover,
+#edit.clicked {
   background-color: #5995DA;
   color: #FFFFFF;
 }
