@@ -107,6 +107,10 @@ th {
   justify-content: space-between;
 }
 
+.fa-sort {
+  cursor: pointer;
+}
+
 #edit,
 #remove {
   font-size: 15px;
