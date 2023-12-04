@@ -45,6 +45,7 @@ function displayLibrary(library) {
 }
 
 function Book(title, author, pages, status) {
+  this.date = new Date().toLocaleDateString();
   this.title = title;
   this.author = author;
   this.pages = pages;
@@ -88,11 +89,13 @@ function resetForm() {
 
 function displayBook(book) {
   const row = tbody.insertRow();
-  const title_cell = row.insertCell(0);
-  const author_cell = row.insertCell(1);
-  const pages_cell = row.insertCell(2);
-  const status_cell = row.insertCell(3);
-  const action_cell = row.insertCell(4);
+  const date_cell = row.insertCell(0);
+  const title_cell = row.insertCell(1);
+  const author_cell = row.insertCell(2);
+  const pages_cell = row.insertCell(3);
+  const status_cell = row.insertCell(4);
+  const action_cell = row.insertCell(5);
+  date_cell.innerHTML = book.date;
   title_cell.innerHTML = book.title;
   author_cell.innerHTML = book.author;
   pages_cell.innerHTML = book.pages;
@@ -149,4 +152,9 @@ function removeBook(e) {
   localStorage.setItem('books', JSON.stringify(myLibrary));
   tbody.innerHTML = '';
   displayLibrary(myLibrary);
+}
+
+function sortData(library) {
+  // sort library
+  displayLibrary(library);
 }
