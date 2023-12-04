@@ -5,17 +5,39 @@ const pages_input = document.getElementById('pages');
 const status_input = document.getElementsByName('status');
 const pageNum_input = document.getElementById('page-number');
 const reading_input = document.getElementById('reading');
+const cancel_btn = document.getElementById('cancel');
 const form = document.querySelector('form');
 const tbody = document.querySelector('tbody');
 let read_status = '';
+let editMode = false;
+let editIndex;
 
 window.onload = (e) => displayLibrary(myLibrary);
 
-reading_input.addEventListener('click', () => {
-  if (reading_input.checked) pageNum_input.setAttribute('required', '');
+status_input.forEach(input => {
+  input.addEventListener('click', () => {
+    if (input === reading_input) {
+      pageNum_input.setAttribute('required', '');
+    } else {
+      pageNum_input.removeAttribute('required');
+    }
+  });
 });
 
-form.addEventListener('submit', addBookToLibrary);
+form.addEventListener('submit', (e) => {
+  if (editMode) {
+    editBook(e);
+    editMode = false;
+    // switch off edit button
+  } else {
+    addBookToLibrary(e);
+  }
+});
+
+cancel_btn.addEventListener('click', () => {
+  editMode = false;
+  resetForm();
+});
 
 function displayLibrary(library) {
   library.forEach(book => displayBook(book));
@@ -52,11 +74,15 @@ function addBookToLibrary(e) {
     myLibrary.push(newBook);
     localStorage.setItem('books', JSON.stringify(myLibrary));
     displayBook(newBook);
-    form.reset();
-    pageNum_input.removeAttribute('required');
+    resetForm();
   } else {
     alert('This book is already in your library.');
   }
+}
+
+function resetForm() {
+  form.reset();
+  pageNum_input.removeAttribute('required');
 }
 
 function displayBook(book) {
@@ -79,17 +105,40 @@ function displayBook(book) {
 function activateActionButtons(book, index) {
   const edit_btn = document.querySelector(`#edit[data-index='${index}']`);
   const remove_btn = document.querySelector(`#remove[data-index='${index}']`);
-  edit_btn.addEventListener('click', editBook);
   remove_btn.addEventListener('click', removeBook);
+  edit_btn.addEventListener('click', (e) => {
+    // Switch on edit button
+    editMode = true;
+    fillEditForm(e);
+  });
+}
+
+function fillEditForm(e) {
+  resetForm();
+  editIndex = e.target.dataset.index;
+  title_input.value = myLibrary[editIndex].title;
+  author_input.value = myLibrary[editIndex].author;
+  pages_input.value = myLibrary[editIndex].pages;
+  if (myLibrary[editIndex].status[0] === 'F') {
+    document.getElementById('read').checked = true;
+  } else if (myLibrary[editIndex].status[0] === 'N') {
+    document.getElementById('not-read').checked = true;
+  } else {
+    reading_input.checked = true;
+    pageNum_input.setAttribute('required', '');
+    pageNum_input.value = myLibrary[editIndex].status.split(' ')[3];
+  }
 }
 
 function editBook(e) {
-  // update library
-
-
+  e.preventDefault();
+  const editedBook = new Book(title_input.value, author_input.value, pages_input.value, getStatus());  
+  myLibrary.splice(editIndex, 1, editedBook)
   localStorage.setItem('books', JSON.stringify(myLibrary));
   tbody.innerHTML = '';
   displayLibrary(myLibrary);
+  form.reset();
+  pageNum_input.removeAttribute('required');
 }
 
 function removeBook(e) {
