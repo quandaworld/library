@@ -46,7 +46,7 @@ function displayLibrary(library) {
 }
 
 function Book(title, author, pages, status) {
-  this.date = new Date().toLocaleDateString();
+  this.date = new Date();
   this.title = title;
   this.author = author;
   this.pages = pages;
@@ -96,7 +96,7 @@ function displayBook(book) {
   const pages_cell = row.insertCell(3);
   const status_cell = row.insertCell(4);
   const action_cell = row.insertCell(5);
-  date_cell.innerHTML = book.date;
+  date_cell.innerHTML = new Date(book.date).toLocaleDateString();
   title_cell.innerHTML = book.title;
   author_cell.innerHTML = book.author;
   pages_cell.innerHTML = book.pages;
@@ -161,13 +161,12 @@ sort_buttons.forEach(btn => btn.addEventListener('click', sortData));
 
 function sortData(e) {
   const key = e.target.dataset.sort;
-  console.log(key);
   if (key === 'date') {
-
+    myLibrary.sort((a, b) => a.date - b.date);
   } else if (key === 'pages') {
-    myLibrary.sort((a, b) => a[key] - b[key]);
+    myLibrary.sort((a, b) => a.pages - b.pages);
   } else {
-
+    myLibrary.sort((a, b) => a[key].toLowerCase() < b[key].toLowerCase() ? -1 : 1);
   }
   updateStorageAndDisplay();
 }
