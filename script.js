@@ -90,6 +90,7 @@ function resetForm() {
 }
 
 function displayBook(book) {
+  const index = myLibrary.indexOf(book);
   const row = tbody.insertRow();
   const date_cell = row.insertCell(0);
   const title_cell = row.insertCell(1);
@@ -102,8 +103,6 @@ function displayBook(book) {
   author_cell.innerHTML = book.author;
   pages_cell.innerHTML = book.pages;
   status_cell.innerHTML = book.status;
-
-  const index = myLibrary.indexOf(book);
   action_cell.innerHTML = `<button id='edit' data-index='${index}'>Edit</button><button id='remove' data-index='${index}'>Remove</button>`;
   edit_buttons = document.querySelectorAll('#edit');
   activateActionButtons(book, index);
@@ -149,8 +148,7 @@ function editBook(e) {
   const editedBook = new Book(title_input.value, author_input.value, pages_input.value, getStatus());  
   myLibrary.splice(editIndex, 1, editedBook)
   updateStorageAndDisplay();
-  form.reset();
-  pageNum_input.removeAttribute('required');
+  resetForm();
 }
 
 function removeBook(e) {
@@ -161,6 +159,7 @@ function removeBook(e) {
 sort_buttons.forEach(btn => btn.addEventListener('click', (e) => {
   asc_sort = !asc_sort;
   sortData(e);
+  resetForm();
 }));
 
 function sortData(e) {
