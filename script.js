@@ -9,11 +9,11 @@ const cancel_btn = document.getElementById('cancel');
 const form = document.querySelector('form');
 const tbody = document.querySelector('tbody');
 const sort_buttons = document.querySelectorAll('.fa-sort');
-let read_status = '';
+let readStatus = '';
 let editMode = false;
 let editIndex;
 let edit_buttons = [];
-let asc_sort = true;
+let ascSort = true;
 
 window.onload = (e) => displayLibrary(myLibrary);
 
@@ -64,11 +64,11 @@ function isInLibrary(newBook) {
 function getStatus() {
   for (let i = 0; i < status_input.length; i++) {
     if (status_input[i].checked) {
-      read_status = status_input[i].labels[0].innerText;
-      if (i === 1) read_status += pageNum_input.value;
+      readStatus = status_input[i].labels[0].innerText;
+      if (i === 1) readStatus += pageNum_input.value;
     }
   }
-  return read_status;
+  return readStatus;
 }
 
 function addBookToLibrary(e) {
@@ -157,7 +157,7 @@ function removeBook(e) {
 }
 
 sort_buttons.forEach(btn => btn.addEventListener('click', (e) => {
-  asc_sort = !asc_sort;
+  ascSort = !ascSort;
   sortData(e);
   resetForm();
 }));
@@ -170,7 +170,19 @@ function sortData(e) {
     myLibrary.sort((a, b) => a.pages - b.pages);
   } else {
     myLibrary.sort((a, b) => a[key].toLowerCase() < b[key].toLowerCase() ? -1 : 1);
+    if (key === 'status') {
+      let spliceIndex;
+      for (let i = 0; i < myLibrary.length; i++) {
+        if (myLibrary[i].status[0] === 'C') {
+          spliceIndex = i;
+          break;
+        } 
+      }
+      const currentReadArr = myLibrary.filter(book => book.status[0] === 'C');
+      currentReadArr.sort((a, b) => parseInt(a.status.split(' ')[3]) - parseInt(b.status.split(' ')[3]));
+      myLibrary.splice(spliceIndex, currentReadArr.length, ...currentReadArr);
+    }
   }
-  if (!asc_sort) myLibrary.reverse();
+  if (!ascSort) myLibrary.reverse();
   updateStorageAndDisplay();
 }
