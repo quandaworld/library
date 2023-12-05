@@ -23,6 +23,7 @@ status_input.forEach(input => {
       pageNum_input.setAttribute('required', '');
     } else {
       pageNum_input.removeAttribute('required');
+      pageNum_input.value = '';
     }
   });
 });
@@ -145,8 +146,10 @@ function updateStorageAndDisplay() {
 
 function editBook(e) {
   e.preventDefault();
-  const editedBook = new Book(title_input.value, author_input.value, pages_input.value, getStatus());  
-  myLibrary.splice(editIndex, 1, editedBook)
+  myLibrary[editIndex].title = title_input.value;
+  myLibrary[editIndex].author = author_input.value;
+  myLibrary[editIndex].pages = pages_input.value;
+  myLibrary[editIndex].status = getStatus();
   updateStorageAndDisplay();
   resetForm();
 }
