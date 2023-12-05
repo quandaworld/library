@@ -20,6 +20,7 @@ Simple library app built with Javascript, HTML, and CSS.
 - Sort book list by date, title, author, pages, and reading status
 - Sort in ascending and descending orders
 - Remove books
+- Store book data locally within the user's browser
 
 
 ## Skills
