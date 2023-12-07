@@ -168,7 +168,7 @@ sort_buttons.forEach(btn => btn.addEventListener('click', (e) => {
 function sortData(e) {
   const key = e.target.dataset.sort;
   if (key === 'date') {
-    myLibrary.sort((a, b) => a.date - b.date);
+    myLibrary.sort((a, b) => new Date(a.date) - new Date(b.date));
   } else if (key === 'pages') {
     myLibrary.sort((a, b) => a.pages - b.pages);
   } else {
