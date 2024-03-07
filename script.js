@@ -17,7 +17,7 @@ let ascSort = true;
 
 window.onload = (e) => displayLibrary(myLibrary);
 
-status_input.forEach(input => {
+status_input.forEach(input => { // add required attribute for page number if books is "current reading"
   input.addEventListener('click', () => {
     if (input === reading_input) {
       pageNum_input.setAttribute('required', '');
@@ -28,7 +28,7 @@ status_input.forEach(input => {
   });
 });
 
-form.addEventListener('submit', (e) => {
+form.addEventListener('submit', (e) => { // if edit mode is on, update book date, else add new book
   if (editMode) {
     editBook(e);
     editMode = false;
@@ -37,17 +37,17 @@ form.addEventListener('submit', (e) => {
   }
 });
 
-cancel_btn.addEventListener('click', () => {
+cancel_btn.addEventListener('click', () => { // reset form when hitting cancel
   editMode = false;
   resetForm();
   edit_buttons.forEach(btn => btn.classList.remove('clicked')); // Switch off all edit buttons
 });
 
-function displayLibrary(library) {
+function displayLibrary(library) { // display all book data
   library.forEach(book => displayBook(book));
 }
 
-function Book(title, author, pages, status) {
+function Book(title, author, pages, status) { // set up new book
   this.date = new Date();
   this.title = title;
   this.author = author;
@@ -55,14 +55,14 @@ function Book(title, author, pages, status) {
   this.status = status;
 }
 
-function isInLibrary(newBook) {
+function isInLibrary(newBook) { // check if book exists u=in library
   for (const book of myLibrary) {
     if (book.title.toLowerCase() === newBook.title.toLowerCase()) return true;
   }
   return false;
 }
 
-function getStatus() {
+function getStatus() { // get book's reading status
   for (let i = 0; i < status_input.length; i++) {
     if (status_input[i].checked) {
       readStatus = status_input[i].labels[0].innerText;
@@ -72,7 +72,7 @@ function getStatus() {
   return readStatus;
 }
 
-function addBookToLibrary(e) {
+function addBookToLibrary(e) { // add new book to database
   e.preventDefault();
   const newBook = new Book(title_input.value, author_input.value, pages_input.value, getStatus());  
   if (!isInLibrary(newBook)) {
@@ -85,12 +85,12 @@ function addBookToLibrary(e) {
   }
 }
 
-function resetForm() {
+function resetForm() { // reset book input form
   form.reset();
   pageNum_input.removeAttribute('required');
 }
 
-function displayBook(book) {
+function displayBook(book) { // display each book in database
   const index = myLibrary.indexOf(book);
   const row = tbody.insertRow();
   const date_cell = row.insertCell(0);
@@ -109,7 +109,7 @@ function displayBook(book) {
   activateActionButtons(book, index);
 }
 
-function activateActionButtons(book, index) {
+function activateActionButtons(book, index) { // activate remove and edit buttons
   const edit_btn = document.querySelector(`#edit[data-index='${index}']`);
   const remove_btn = document.querySelector(`#remove[data-index='${index}']`);
   remove_btn.addEventListener('click', removeBook);
@@ -121,7 +121,7 @@ function activateActionButtons(book, index) {
   });
 }
 
-function fillEditForm(element) {
+function fillEditForm(element) { // fill form with book info when clicking edit button
   resetForm();
   editIndex = element.dataset.index;
   title_input.value = myLibrary[editIndex].title;
@@ -138,13 +138,13 @@ function fillEditForm(element) {
   }
 }
 
-function updateStorageAndDisplay() {
+function updateStorageAndDisplay() { // update book database
   localStorage.setItem('books', JSON.stringify(myLibrary));
   tbody.innerHTML = '';
   displayLibrary(myLibrary);
 }
 
-function editBook(e) {
+function editBook(e) { // edit book info
   e.preventDefault();
   myLibrary[editIndex].title = title_input.value;
   myLibrary[editIndex].author = author_input.value;
@@ -154,26 +154,26 @@ function editBook(e) {
   resetForm();
 }
 
-function removeBook(e) {
+function removeBook(e) { // remove book from database
   myLibrary.splice(e.target.dataset.index, 1);
   updateStorageAndDisplay();
 }
 
-sort_buttons.forEach(btn => btn.addEventListener('click', (e) => {
+sort_buttons.forEach(btn => btn.addEventListener('click', (e) => { // add sort events to sort buttons
   ascSort = !ascSort;
   sortData(e);
   resetForm();
 }));
 
-function sortData(e) {
+function sortData(e) { // sort book data
   const key = e.target.dataset.sort;
-  if (key === 'date') {
+  if (key === 'date') { // ascending sort by date added 
     myLibrary.sort((a, b) => new Date(a.date) - new Date(b.date));
-  } else if (key === 'pages') {
+  } else if (key === 'pages') { // ascending sort by number of pages
     myLibrary.sort((a, b) => a.pages - b.pages);
-  } else {
-    myLibrary.sort((a, b) => a[key].toLowerCase() < b[key].toLowerCase() ? -1 : 1);
-    if (key === 'status') {
+  } else { // ascending sort by title, author, and reading status
+    myLibrary.sort((a, b) => a[key].toLowerCase() < b[key].toLowerCase() ? -1 : 1); // sort by author and title
+    if (key === 'status') { // ascending sort by reading status
       let spliceIndex;
       for (let i = 0; i < myLibrary.length; i++) {
         if (myLibrary[i].status[0] === 'C') {
@@ -186,6 +186,6 @@ function sortData(e) {
       myLibrary.splice(spliceIndex, currentReadArr.length, ...currentReadArr);
     }
   }
-  if (!ascSort) myLibrary.reverse();
+  if (!ascSort) myLibrary.reverse(); // sort by descending order
   updateStorageAndDisplay();
 }
