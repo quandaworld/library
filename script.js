@@ -165,27 +165,40 @@ sort_buttons.forEach(btn => btn.addEventListener('click', (e) => { // add sort e
   resetForm();
 }));
 
-function sortData(e) { // sort book data
+// sort book data
+function sortData(e) {
   const key = e.target.dataset.sort;
-  if (key === 'date') { // ascending sort by date added 
-    myLibrary.sort((a, b) => new Date(a.date) - new Date(b.date));
-  } else if (key === 'pages') { // ascending sort by number of pages
-    myLibrary.sort((a, b) => a.pages - b.pages);
-  } else { // ascending sort by title, author, and reading status
-    myLibrary.sort((a, b) => a[key].toLowerCase() < b[key].toLowerCase() ? -1 : 1); // sort by author and title
-    if (key === 'status') { // ascending sort by reading status
+
+  if (key === 'date') { 
+    myLibrary.sort((a, b) => new Date(a.date) - new Date(b.date)); // ascending sort by date added 
+  } else if (key === 'pages') {
+    myLibrary.sort((a, b) => a.pages - b.pages); // ascending sort by number of pages
+  } else {
+    myLibrary.sort((a, b) => a[key].toLowerCase() < b[key].toLowerCase() ? -1 : 1); // ascending sort by author, title, and reading status
+
+    // ascending sort by reading pages if status is "current reading"
+    if (key === 'status') {
       let spliceIndex;
+
       for (let i = 0; i < myLibrary.length; i++) {
         if (myLibrary[i].status[0] === 'C') {
           spliceIndex = i;
           break;
         } 
       }
+
       const currentReadArr = myLibrary.filter(book => book.status[0] === 'C');
+
+      // sort ascending by current reading pages
       currentReadArr.sort((a, b) => parseInt(a.status.split(' ')[3]) - parseInt(b.status.split(' ')[3]));
+
+      // replace unsorted "current reading" books by sorted "current reading" books
       myLibrary.splice(spliceIndex, currentReadArr.length, ...currentReadArr);
     }
   }
-  if (!ascSort) myLibrary.reverse(); // sort by descending order
+
+  // sort by descending order
+  if (!ascSort) myLibrary.reverse(); 
+
   updateStorageAndDisplay();
 }
